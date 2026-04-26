@@ -1,0 +1,60 @@
+<% layout('layouts/boilerplate') -%>
+<body>
+    
+    <div class = "row ">
+        <div class="col col-8 offset-2 mt-3">
+           
+    <h3> Create A New Listing</h3>
+    <br/>
+ <form method = "post" action="/listings" novalidate class="needs-validation">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input name ="listing[title]" placeholder = "Add a Catchy Title" type = "text" class = "form-control" required></input>
+        <div class = "valid-feedback">Title looks good!</div>
+    </div>
+    
+    <div class="mb-3">
+     <label for="description" class="form-label">Description</label>
+    <textarea name ="listing[description]"   id="description" placeholder = "enter description" class = "form-control" required></textarea>
+    <div class = "invalid-feedback">Please enter a short description</div>
+    </div>
+
+    <div class="mb-3">
+    <label for="image" class="form-label">Image</label> 
+    <input name="listing[image][url]" placeholder ="enter url/link" id="image" type = "text" class = "form-control">
+   
+</input>
+    </div>
+
+    <div class ="row">
+
+      <div class="mb-3 col-md-4">
+    <label for="price" class="form-label">Price</label>
+    <input name ="listing[price]" placeholder = "1200" type = "number" id="price" class = "form-control" required></input>
+     <div class = "invalid-feedback">Price should be valid</div>
+    </div>
+
+     <div class="mb-3 col-md-8">
+    <label for="country" class="form-label">Country</label>
+    <input name ="listing[country]" placeholder = "India" type = "text" id="country"class = "form-control" required></input>
+    <div class = "invalid-feedback">Country name should be valid</div>
+    </div>
+
+    </div>
+
+     <div class="mb-3">
+    <label for="location" class="form-label">Location</label>
+    <input name ="listing[location]" placeholder = "Jaipur, Rajasthan" id="location" type = "text" class = "form-control" required></input>
+     <div class = "invalid-feedback">Location should be valid</div>
+    </div>
+    
+    
+
+  
+    <button class ="btn btn-dark add-btn mt-3"> Add </button>
+    
+ </form>
+ </div>
+ </div>
+</body>
+</html>
