@@ -17,7 +17,7 @@ const userRouter = require("./routes/user.js");
 
 const session = require("express-session");
 const {MongoStore} = require("connect-mongo"); 
-;//stores user session data between requests
+
 const flash = require("connect-flash");//stores temporary messages in session to display after redirects
 const passport = require("passport"); //passport handles user authentication
 const LocalStrategy = require("passport-local"); //passport local authenticates user using username and password
