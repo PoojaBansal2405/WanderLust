@@ -6,7 +6,7 @@
            
     <h3> Create A New Listing</h3>
     <br/>
- <form method = "post" action="/listings" novalidate class="needs-validation">
+ <form method = "post" action="/listings" novalidate class="needs-validation" enctype = "multipart/form-data">
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input name ="listing[title]" placeholder = "Add a Catchy Title" type = "text" class = "form-control" required></input>
@@ -19,13 +19,18 @@
     <div class = "invalid-feedback">Please enter a short description</div>
     </div>
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
     <label for="image" class="form-label">Image</label> 
-    <input name="listing[image][url]" placeholder ="enter url/link" id="image" type = "text" class = "form-control">
+    <input name="listing[image][url]" placeholder ="enter url/link" id="image" type = "text" class = "form-control" >
    
 </input>
-    </div>
+    </div> -->
 
+     <div class="mb-3">
+    <label for="image" class="form-label">Image</label> 
+    <input name="listing[image]" placeholder ="enter url/link" id="image" type = "file" class = "form-control" >
+   </input>
+    </div>
     <div class ="row">
 
       <div class="mb-3 col-md-4">
@@ -47,10 +52,86 @@
     <input name ="listing[location]" placeholder = "Jaipur, Rajasthan" id="location" type = "text" class = "form-control" required></input>
      <div class = "invalid-feedback">Location should be valid</div>
     </div>
-    
-    
 
+
+    <div id = "category">
+    <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Trending" id="trending">
+  <label class="form-check-label" for="flexCheckDefault">
+   Trending
+  </label>
+  </div>
+
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Rooms" id="rooms">
+  <label class="form-check-label" for="flexCheckDefault">
+  Rooms
+  </label>
+  </div>
+
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Iconic Cities" id="cities">
+  <label class="form-check-label" for="flexCheckDefault">
+    Iconic Cities
+  </label>
+</div>
+
+<div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Mountains" id="mountains">
+  <label class="form-check-label" for="flexCheckDefault">
+   Mountains
+  </label>
+  </div>
+
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Castles" id="castles">
+  <label class="form-check-label" for="flexCheckDefault">
+    Castles
+  </label>
+  </div>
+
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Amazing Pools" id="pools">
+  <label class="form-check-label" for="flexCheckDefault">
+   Amazing Pools
+  </label>
+  </div>
+
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Camping" id="camping">
+  <label class="form-check-label" for="flexCheckDefault">
+    Camping
+  </label>
+  </div>
+
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Farms" id="farms">
+  <label class="form-check-label" for="flexCheckDefault">
+    Farms
+  </label>
+  </div>
   
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Arctic" id="arctic">
+  <label class="form-check-label" for="flexCheckDefault">
+    Arctic
+  </label>
+  </div>
+
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Domes" id="domes">
+  <label class="form-check-label" for="flexCheckDefault">
+   Domes
+  </label>
+  </div>
+
+  <div class="form-check ">
+  <input class="form-check-input" name=listing[category] type="checkbox" value="Boats" id="boats">
+  <label class="form-check-label" for="flexCheckDefault">
+    Boats
+  </label>
+  </div>
+
     <button class ="btn btn-dark add-btn mt-3"> Add </button>
     
  </form>

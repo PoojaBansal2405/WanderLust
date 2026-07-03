@@ -99,3 +99,8 @@ body{
     padding-right:0;
 }
 
+/*map*/
+#map {
+    height: 400px;
+    width: 80vh;
+}

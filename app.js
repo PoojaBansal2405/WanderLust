@@ -1,33 +1,43 @@
-const express = require("express");
-const app = express();
+ require("dotenv").config();
 
-const mongoose = require("mongoose");
-const path = require("path");
-const methodOverride = require("method-override");
-const ejsMate = require("ejs-mate");
-const expressError = require("./utils/expressError.js");
+const db_URL = process.env.ATLASDB_URL
+const express = require("express"); //express framework helps create server and routes
+const app = express(); //this is the main express application object
+
+const mongoose = require("mongoose"); //mongoose connects node.js app with mongodb database
+const path = require("path"); //path helps create correct file paths across OS
+const methodOverride = require("method-override"); //allows put and delete requests through html forms
+const ejsMate = require("ejs-mate"); //helps create layouts and boilerplates templates in ejs
+const expressError = require("./utils/expressError.js");//custom error class for handling application specific errors
+
+//Routes of different models
 const listingRouter = require("./routes/listing.js");
 const reviewRouter= require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+
 const session = require("express-session");
-const flash = require("connect-flash");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const User = require("./models/user.js");
+const {MongoStore} = require("connect-mongo"); 
+;//stores user session data between requests
+const flash = require("connect-flash");//stores temporary messages in session to display after redirects
+const passport = require("passport"); //passport handles user authentication
+const LocalStrategy = require("passport-local"); //passport local authenticates user using username and password
+const User = require("./models/user.js"); //User Model defines structure and rules for user  documents in mongoDB
 
 
 
 
 
 
-app.set("view engine" , "ejs");
-app.set("views" , path.join(__dirname,"views"));
+app.set("view engine" , "ejs"); //ejs is set a default veiw engine
+app.set("views" , path.join(__dirname,"views"));//sets absolute path for views folder
 
-app.use(express.urlencoded({extended :true}));
-app.use(methodOverride("_method"));
-app.engine('ejs' , ejsMate);
+app.use(express.urlencoded({extended :true})); //parse form data and store it in req.body
+app.use(methodOverride("_method"));//converts post request into put or delete uding query parameter
+app.engine('ejs' , ejsMate);//use ejs mate with ejs
 
-app.use(express.static(path.join(__dirname , "/public")));
+app.use(express.static(path.join(__dirname , "/public"))); //serves static file like css js and images
+
+//when app starts -> main() runs->mongoose.connect() tries connecting database -> if(success)then() -> if (failure)catch()
 main()
 .then(()=>{
    console.log("connected to DB");
@@ -35,10 +45,21 @@ main()
 console.log(err);
 })
 
+const store = MongoStore.create({
+    mongoUrl: db_URL,
+    crypto:{
+        secret: process.env.SECRET
+    },
+    touchAfter:24*3600,
+})
 
-//sessions
+store.on("error",()=>{
+    console.log("error",err);
+})
+//sessions - these are used in passport 
 const sessionOptions={
-    secret:"mySuperSecretCode",
+    store:store,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -48,13 +69,16 @@ const sessionOptions={
     }
 }
 
-app.use(session(sessionOptions));
-app.use(flash());
 
-app.use(passport.initialize());
-app.use(passport.session());
+
+
+app.use(session(sessionOptions)); //middleware which sets up session for each request
+app.use(flash());//middleware which helps store message in session
+
+app.use(passport.initialize());//initializes passport authentication middleware
+app.use(passport.session());//restores loggin-in user from session on each request
 //use local to authenticate user
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(User.authenticate()));//authenticates user using username and password
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -66,8 +90,9 @@ app.use((req,res,next)=>{
     next();
 })
 
+
 async function main(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+    await mongoose.connect(db_URL);
 }
 
 
@@ -102,9 +127,7 @@ app.use("/listings/:id/reviews" , reviewRouter);
 app.use("/", userRouter);
 
 
-app.get("/",(req,res)=>{
-    res.send("connection successful");
-})
+
 
 app.use( (req , res , next)=>{
     next(new expressError(404 , "Page Not Found"));
